@@ -1,74 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const App = () => {
-    const kurssi = {
-        nimi: 'Half Stack -sovelluskehitys',
-        osat: [
-            {
-                nimi: "Reactin perusteet",
-                tehtavia: 10
-            },
-            {
-                nimi: "Tiedonvälitys propseilla",
-                tehtavia: 7
-            },
-            {
-                nimi: "Komponenttien tila",
-                tehtavia: 14
-            }
-        ]
+class App extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            hyva: 0, 
+            neutraali: 0,
+            huono: 0
+        }
     }
 
-    return (
-        <div>
-            <Otsikko kurssi={kurssi} />
-            <Sisalto osat={kurssi.osat} />
-            <Yhteensa yhteensa={kurssi.osat} />
-        </div>
+    setHyva = () => {
+        console.log("hyvä set")
+        this.setState({
+            hyva: this.state.hyva + 1
+        })
+    } 
+    setNeutraali = () => {
+        console.log("Neutraali set")
+        this.setState({
+            neutraali: this.state.neutraali + 1
+        })
+    }
+    setHuono = () => {
+        console.log("Huono set")
+        this.setState({
+            huono: this.state.huono + 1
+        })
+    }
+    
+    render(){
+        return(
+            <div>
+            <h1>Anna Palautetta</h1>
 
-    )
+            <button onClick={this.setHyva}> hyvä </button>
+            <button onClick={this.setNeutraali}> neutraali </button>
+            <button onClick={this.setHuono}> huono </button>
+            <h2>Statistiikka</h2>
+            <p>Hyvä: {this.state.hyva}</p>
+            <p>Neutraali: {this.state.neutraali}</p>
+            <p>Huono: {this.state.huono}</p>
+            </div>
+        )
+    }
 }
-const Otsikko = (props) => {
-    return (
-        <div>
-            <h1>{props.kurssi.nimi}</h1>
-        </div>
-    )
-
-}
-
-const Osa = (props) => {
-    return (
-        <div>
-            <p>{props.osa} {props.tehtava}</p>
-
-        </div>
-
-    )
-
-}
-const Sisalto = (props) => {
-    return (
-        <div>
-            <Osa osa={props.osat[0].nimi} tehtava={props.osat[0].tehtavia} />
-            <Osa osa={props.osat[1].nimi} tehtava={props.osat[1].tehtavia} />
-            <Osa osa={props.osat[2].nimi} tehtava={props.osat[2].tehtavia} />
-
-        </div>
-
-    )
-
-}
-
-const Yhteensa = (props) => {
-    return (
-        <div>
-            <p>Yhteensä: {props.yhteensa[0].tehtavia + props.yhteensa[1].tehtavia + props.yhteensa[2].tehtavia}</p>
-        </div>
-    )
-}
-
 
 
 ReactDOM.render(<App />, document.getElementById('root'));
