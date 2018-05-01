@@ -13,10 +13,10 @@ class App extends React.Component {
         }
     }
 
-    kasvataArvoa = (status) => {
+    kasvataArvoa = (state) => {
         return () => {
-            console.log(status);
-            this.setState((prevState) => ({[status]: prevState[status] + 1}));
+            
+            this.setState((prevState) => ({[state]: prevState[state] + 1}));
         }
     }
 
@@ -47,11 +47,15 @@ const Statistics = (props) => {
         return (
             <div>
                 <h2>Statistiikka</h2>
+                <table>
+                    <tbody>
                 <Statistic text="Hyvä" value={props.state.hyva} />
                 <Statistic text="Neutraali" value={props.state.neutraali} />
                 <Statistic text="Huono" value={props.state.huono} />
                 <Statistic text="Keskiarvo " value={(props.state.hyva - props.state.huono) / (props.state.hyva + props.state.neutraali + props.state.huono)} />
                 <Statistic text="Positiivisia" value={props.state.hyva / (props.state.hyva + props.state.neutraali + props.state.huono)} />
+                </tbody>
+                </table>
             </div>
         )
     } else {
@@ -60,7 +64,10 @@ const Statistics = (props) => {
 }
 
 const Statistic = ({ text, value }) => (
-    <p>{text}: {value}</p>
+    <tr>
+    <td>{text}</td>
+    <td> {value}</td>
+    </tr>
 )
 
 ReactDOM.render(<App />, document.getElementById('root'));
