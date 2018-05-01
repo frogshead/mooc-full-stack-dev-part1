@@ -11,75 +11,75 @@ import ReactDOM from 'react-dom';
 // }
 
 class App extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            hyva: 0, 
+            hyva: 0,
             neutraali: 0,
             huono: 0
         }
     }
-    
 
-    setHyva = () => {
-        console.log("hyvä set")
-        this.setState({
-            hyva: this.state.hyva + 1
-        })
-    } 
-    setNeutraali = () => {
-        console.log("Neutraali set")
-        this.setState({
-            neutraali: this.state.neutraali + 1
-        })
-    }
-    setHuono = () => {
-        console.log("Huono set")
-        this.setState({
-            huono: this.state.huono + 1
-        })
-    }
-    
+    kasvataArvoa = (s) => {
+        return () => {
+            switch (s) {
+                case this.state.hyva:
+                    this.setState({ hyva: this.state.hyva + 1 });
 
-    render(){
-        return(
+                    break;
+                case this.state.huono:
+                    this.setState({ huono: this.state.huono + 1 })
+                    break;
+                case this.state.neutraali:
+                    this.setState({ neutraali: this.state.neutraali + 1 })
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    render() {
+        return (
             <div>
-            <h1>Anna Palautetta</h1>
-            <Button handleClick={() => this.setState({hyva: this.state.hyva + 1})} text="Hyvä" />
-            <Button handleClick={() => this.setState({neutraali: this.state.neutraali + 1})} text="Neutraali" />
-            <Button handleClick={() => this.setState({huono: this.state.huono + 1})} text="Huono" />
-            <Statistics state={this.state} />
+                <h1>Anna Palautetta</h1>
+                <Button handleClick={this.kasvataArvoa(this.state.hyva)} text="Hyvä" />
+                <Button handleClick={this.kasvataArvoa(this.state.neutraali)} text="Neutraali" />
+                <Button handleClick={this.kasvataArvoa(this.state.huono)} text="Huono" />
+                <Statistics state={this.state} />
             </div>
         )
     }
 }
 
 
-const Button = ({handleClick, text}) => (
+const Button = ({ handleClick, text }) => (
     <button onClick={handleClick}>
-    {text}
+        {text}
     </button>
 )
 
-const Statistics = (props) =>{
-if (props.state.hyva > 0 || props.state.neutraali > 0 || props.state.huono > 0) {
-    
- return(   
-<div>
-<h2>Statistiikka</h2>
-<Statistic text="Hyvä" value={props.state.hyva} />
-<Statistic text="Neutraali" value={props.state.neutraali} />
-<Statistic text="Huono" value={props.state.huono} />
-<Statistic text="Keskiarvo " value={(props.state.hyva - props.state.huono) / (props.state.hyva + props.state.neutraali + props.state.huono)} />
-<Statistic text="Positiivisia" value={ props.state.hyva / (props.state.hyva + props.state.neutraali +props.state.huono)} />
-</div>
-)
-} else {
-    return <p></p>
-}
+const Statistics = (props) => {
+    if (props.state.hyva > 0 || props.state.neutraali > 0 || props.state.huono > 0) {
+
+        return (
+            <div>
+                <h2>Statistiikka</h2>
+                <Statistic text="Hyvä" value={props.state.hyva} />
+                <Statistic text="Neutraali" value={props.state.neutraali} />
+                <Statistic text="Huono" value={props.state.huono} />
+                <Statistic text="Keskiarvo " value={(props.state.hyva - props.state.huono) / (props.state.hyva + props.state.neutraali + props.state.huono)} />
+                <Statistic text="Positiivisia" value={props.state.hyva / (props.state.hyva + props.state.neutraali + props.state.huono)} />
+            </div>
+        )
+    } else {
+        return <p></    p>
+    }
 }
 
-const Statistic = ({text, value}) => (
+const Statistic = ({ text, value }) => (
     <p>{text}: {value}</p>
 )
 
