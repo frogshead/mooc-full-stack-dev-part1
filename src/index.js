@@ -1,14 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// class Button extends React.Component{
-//     render({handleClick, text}){
-//         return
-//         <button onClick={handleClick}>
-//         {text}
-//         </button>
-//     }
-// }
+
 
 class App extends React.Component {
     constructor(props) {
@@ -20,23 +13,10 @@ class App extends React.Component {
         }
     }
 
-    kasvataArvoa = (s) => {
+    kasvataArvoa = (status) => {
         return () => {
-            switch (s) {
-                case this.state.hyva:
-                    this.setState({ hyva: this.state.hyva + 1 });
-
-                    break;
-                case this.state.huono:
-                    this.setState({ huono: this.state.huono + 1 })
-                    break;
-                case this.state.neutraali:
-                    this.setState({ neutraali: this.state.neutraali + 1 })
-                    break;
-
-                default:
-                    break;
-            }
+            console.log(status);
+            this.setState((prevState) => ({[status]: prevState[status] + 1}));
         }
     }
 
@@ -45,9 +25,9 @@ class App extends React.Component {
         return (
             <div>
                 <h1>Anna Palautetta</h1>
-                <Button handleClick={this.kasvataArvoa(this.state.hyva)} text="Hyvä" />
-                <Button handleClick={this.kasvataArvoa(this.state.neutraali)} text="Neutraali" />
-                <Button handleClick={this.kasvataArvoa(this.state.huono)} text="Huono" />
+                <Button handleClick={this.kasvataArvoa('hyva')} text="Hyvä" />
+                <Button handleClick={this.kasvataArvoa('neutraali')} text="Neutraali" />
+                <Button handleClick={this.kasvataArvoa('huono')} text="Huono" />
                 <Statistics state={this.state} />
             </div>
         )
@@ -75,7 +55,7 @@ const Statistics = (props) => {
             </div>
         )
     } else {
-        return <p></    p>
+        return <p></p>
     }
 }
 
