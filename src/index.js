@@ -1,74 +1,45 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            hyva: 0,
-            neutraali: 0,
-            huono: 0
+            selected: 0
         }
     }
 
-    kasvataArvoa = (state) => {
+    randomize() {
         return () => {
-            
-            this.setState((prevState) => ({[state]: prevState[state] + 1}));
+            let rnd = 0;
+            while (rnd === this.state.selected) {
+                rnd = Math.floor(Math.random() * anecdotes.length);
+                console.log("Random: ", rnd);
+            } 
+            this.setState({ selected: rnd });
         }
     }
-
 
     render() {
         return (
             <div>
-                <h1>Anna Palautetta</h1>
-                <Button handleClick={this.kasvataArvoa('hyva')} text="Hyvä" />
-                <Button handleClick={this.kasvataArvoa('neutraali')} text="Neutraali" />
-                <Button handleClick={this.kasvataArvoa('huono')} text="Huono" />
-                <Statistics state={this.state} />
+                <p>{this.props.anecdotes[this.state.selected]}</p>
+                <button onClick={this.randomize()}>New Anecdote</button>
             </div>
         )
     }
 }
 
+const anecdotes = [
+    'If it hurts, do it more often',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
+]
 
-const Button = ({ handleClick, text }) => (
-    <button onClick={handleClick}>
-        {text}
-    </button>
+ReactDOM.render(
+    <App anecdotes={anecdotes} />,
+    document.getElementById('root')
 )
-
-const Statistics = (props) => {
-    if (props.state.hyva > 0 || props.state.neutraali > 0 || props.state.huono > 0) {
-
-        return (
-            <div>
-                <h2>Statistiikka</h2>
-                <table>
-                    <tbody>
-                <Statistic text="Hyvä" value={props.state.hyva} />
-                <Statistic text="Neutraali" value={props.state.neutraali} />
-                <Statistic text="Huono" value={props.state.huono} />
-                <Statistic text="Keskiarvo " value={(props.state.hyva - props.state.huono) / (props.state.hyva + props.state.neutraali + props.state.huono)} />
-                <Statistic text="Positiivisia" value={props.state.hyva / (props.state.hyva + props.state.neutraali + props.state.huono)} />
-                </tbody>
-                </table>
-            </div>
-        )
-    } else {
-        return <p></p>
-    }
-}
-
-const Statistic = ({ text, value }) => (
-    <tr>
-    <td>{text}</td>
-    <td> {value}</td>
-    </tr>
-)
-
-ReactDOM.render(<App />, document.getElementById('root'));
-
