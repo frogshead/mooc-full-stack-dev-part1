@@ -30,11 +30,24 @@ class App extends React.Component {
 
     vote() {
         return () => {
+            this.max_votes()
             const cp = { ...this.state.votes };
             cp[this.state.selected] = cp[this.state.selected] + 1;
             this.setState({ votes: cp });
-
         }
+    }
+    
+    max_votes() {
+        
+            console.log("max votes");
+            
+            let arr = Object.values(this.state.votes);
+            let max =  Math.max(...arr);
+            let index = arr.indexOf(max);
+            
+            console.log(index);
+            return index;
+        
     }
 
 
@@ -45,6 +58,11 @@ class App extends React.Component {
                 <p>{this.props.anecdotes[this.state.selected]}</p>
                 <br />
                 <p>Has {this.state.votes[this.state.selected]} votes</p>
+                <p>Anecdote with most votes:</p>
+                <p>{this.props.anecdotes[this.max_votes()]}</p>
+
+
+
                 <button onClick={this.randomize()}>New Anecdote</button>
                 <button onClick={this.vote()}>Vote Me!</button>
             </div>
